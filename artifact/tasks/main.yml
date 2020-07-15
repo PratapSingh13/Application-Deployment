@@ -24,7 +24,7 @@
 - name: S3 Download each Artifact 
   aws_s3:
     bucket: ot-microservices
-    object: "/jobs/Microservice-Deployment/{{ item.name }}/{{ item.version }}/{{ item.artifact }}"
+    object: "/jobs/Microservice-Deployment/{{ item.version }}/{{ item.artifact }}"
     dest: "/opt/{{ item.name }}/{{ item.name }}"
     mode: get
   loop:
