@@ -50,7 +50,7 @@ node
             noUploadOnFailure: true, 
             selectedRegion: 'ap-south-1',
             showDirectlyInBrowser: false, 
-            sourceFile: 'frontend/build', 
+            sourceFile: 'frontend/*', 
             storageClass: 'STANDARD', 
             uploadFromSlave: false, 
             useServerSideEncryption: false]], 
@@ -263,22 +263,6 @@ node
             emailext attachLog: true, 
             body: '', 
             subject: 'Regarding Attendance Artifact Uploading', 
-            to: 'yogendrapratapsingh70@gmail.com'
-            sh 'exit 1'
-        }
-    }
-
-    stage('Getting json')
-    {
-        try
-        {
-            sh label: '', script: '/home/opstree/Desktop/software/dynamic-inventory/ec2.py --refresh-cache'
-        }
-        catch(Exception e)
-        {
-            emailext attachLog: true, 
-            body: '', 
-            subject: 'Retrieving Data', 
             to: 'yogendrapratapsingh70@gmail.com'
             sh 'exit 1'
         }

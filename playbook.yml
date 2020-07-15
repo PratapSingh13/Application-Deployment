@@ -4,6 +4,7 @@
   become_method: sudo
   roles:
     - nginx
+    - artifact
     - go
     - nodejs
     - maven
