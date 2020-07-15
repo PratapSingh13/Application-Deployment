@@ -50,7 +50,7 @@ node
             noUploadOnFailure: true, 
             selectedRegion: 'ap-south-1',
             showDirectlyInBrowser: false, 
-            sourceFile: 'frontend/build', 
+            sourceFile: 'frontend/*', 
             storageClass: 'STANDARD', 
             uploadFromSlave: false, 
             useServerSideEncryption: false]], 
