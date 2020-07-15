@@ -267,20 +267,4 @@ node
             sh 'exit 1'
         }
     }
-
-    stage('Getting json')
-    {
-        try
-        {
-            sh label: '', script: '/home/opstree/Desktop/software/dynamic-inventory/ec2.py --refresh-cache'
-        }
-        catch(Exception e)
-        {
-            emailext attachLog: true, 
-            body: '', 
-            subject: 'Retrieving Data', 
-            to: 'yogendrapratapsingh70@gmail.com'
-            sh 'exit 1'
-        }
-    }
 }
