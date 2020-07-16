@@ -37,7 +37,7 @@
 - name: Change mode
   file:
     state: file
-    path: "/opt/{{ item.name }}/{{ item.name }}"
+    path: "/opt/{{ item.name }}/{{ item.artifact }}"
     mode: 751
   loop:
     -  name: 'attendance'
