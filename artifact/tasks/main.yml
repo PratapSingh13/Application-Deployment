@@ -30,7 +30,7 @@
   loop:
     - { name: 'attendance', version: "{{ attendance_version }}" , artifact: 'attendance' }
     - { name: 'salary', version: "{{ salary_version }}" , artifact: 'salary' }
-    - { name: 'employee', version: "{{employee_version }}" , artifact: 'employee' }
+    - { name: 'employee', version: "{{ employee_version }}" , artifact: 'employee' }
     - { name: 'gateway', version: "{{ gateway_version }}" , artifact: 'gateway-service.jar' }
     
 
