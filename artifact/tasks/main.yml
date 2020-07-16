@@ -28,10 +28,10 @@
     dest: "/opt/{{ item.name }}/{{ item.name }}"
     mode: get
   loop:
-    - { name: 'Attendance-Artifact', version: "3" , artifact: 'attendance' }
-    - { name: 'Salary-Atifact', version: "3" , artifact: 'salary' }
-    - { name: 'Employee-Artifact', version: "3" , artifact: 'employee' }
-    - { name: 'gateway-Artifact', version: "3" , artifact: 'gateway-service.jar' }
+    - { name: 'Attendance-Artifact', version: "1" , artifact: 'attendance' }
+    - { name: 'Salary-Atifact', version: "1" , artifact: 'salary' }
+    - { name: 'Employee-Artifact', version: "1" , artifact: 'employee' }
+    - { name: 'gateway-Artifact', version: "1" , artifact: 'gateway-service.jar' }
     
 
 - name: Change mode
