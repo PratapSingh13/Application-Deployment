@@ -8,6 +8,6 @@ Group=ubuntu
 Restart=always
 RestartSec=3
 Environment="CONFIG_FILE"="/opt/application/employee/config.yaml"
-ExecStart=/opt/application/Employee-Artifact/employee
+ExecStart=/opt/Employee-Artifact/employee
 [Install]
 WantedBy=multi-user.target
