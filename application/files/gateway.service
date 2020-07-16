@@ -7,6 +7,6 @@ User=ubuntu
 Group=ubuntu
 Restart=always
 RestartSec=3
-ExecStart=/usr/bin/java -jar /opt/gateway/gateway-service.jar
+ExecStart=/usr/bin/java -jar /opt/application/gateway/target/gateway-service.jar
 [Install]
 WantedBy=multi-user.target
