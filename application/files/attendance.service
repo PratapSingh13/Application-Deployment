@@ -8,6 +8,6 @@ Group=ubuntu
 Restart=always
 RestartSec=3
 Environment="CONFIG_FILE"="/opt/application/attendance/config.yaml"
-ExecStart=/opt/Attendance-Artifact/attendance
+ExecStart=/opt/attendance/attendance
 [Install]
 WantedBy=multi-user.target
