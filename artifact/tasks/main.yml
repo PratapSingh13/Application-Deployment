@@ -24,20 +24,20 @@
 - name: S3 Download each Artifact 
   aws_s3:
     bucket: ot-microservices
-    object: "/jobs/Final-Evaluation/{{ item.name }}/{{ item.version }}/{{ item.artifact }}"
+    object: "/jobs/Microservice-Deployment/{{ item.version }}/{{ item.artifact }}"
     dest: "/opt/{{ item.name }}/{{ item.name }}"
     mode: get
   loop:
-    - { name: 'Attendance-Artifact', version: "1" , artifact: 'attendance' }
-    - { name: 'Salary-Atifact', version: "1" , artifact: 'salary' }
-    - { name: 'Employee-Artifact', version: "1" , artifact: 'employee' }
-    - { name: 'gateway-Artifact', version: "1" , artifact: 'gateway-service.jar' }
+    - { name: 'attendance', version: "3" , artifact: 'attendance' }
+    - { name: 'salary', version: "3" , artifact: 'salary' }
+    - { name: 'employee', version: "3" , artifact: 'employee' }
+    - { name: 'gateway', version: "3" , artifact: 'gateway-service.jar' }
     
 
 - name: Change mode
   file:
     state: file
-    path: "/opt/{{ item.name }}/{{ item.artifact }}"
+    path: "/opt/{{ item.name }}/{{ item.name }}"
     mode: 751
   loop:
     -  name: 'attendance'
