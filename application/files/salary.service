@@ -8,6 +8,6 @@ Group=ubuntu
 Restart=always
 RestartSec=3
 Environment="CONFIG_FILE"="/opt/application/salary/config.yaml"
-ExecStart=/opt/Salary-Atifact/salary
+ExecStart=/opt/salary/salary
 [Install]
 WantedBy=multi-user.target
