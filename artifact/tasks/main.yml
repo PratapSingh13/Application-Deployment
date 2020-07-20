@@ -24,14 +24,14 @@
 - name: S3 Download each Artifact 
   aws_s3:
     bucket: ot-microservices
-    object: "/jobs/Microservice-Deployment/{{ item.version }}/{{ item.artifact }}"
+    object: "{{ item.folder }}/{{ item.version }}/{{ item.version }}"
     dest: "/opt/{{ item.name }}/{{ item.name }}"
     mode: get
   loop:
-    - { name: 'attendance', version: "{{ attendance_version }}" , artifact: 'attendance' }
-    - { name: 'salary', version: "{{ salary_version }}" , artifact: 'salary' }
-    - { name: 'employee', version: "{{ employee_version }}" , artifact: 'employee' }
-    - { name: 'gateway', version: "{{ gateway_version }}" , artifact: 'gateway-service.jar' }
+    - { name: 'attendance', folder: 'Attendance', version: "{{ attendance_version }}" , artifact: 'attendance' }
+    - { name: 'salary', folder: 'Salary', version: "{{ salary_version }}" , artifact: 'salary' }
+    - { name: 'employee', folder: 'Employee', version: "{{ employee_version }}" , artifact: 'employee' }
+    - { name: 'gateway', folder: 'Gateway', version: "{{ gateway_version }}" , artifact: 'gateway-service.jar' }
     
 
 - name: Change mode
