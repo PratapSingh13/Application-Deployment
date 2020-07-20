@@ -34,6 +34,10 @@ node
     
     stage("Putting Dependecies")
     {
-        sh label: '', script: 'ansible-playbook -i dynamic-inventory/ec2.py playbook.yml -e "attendance_version=$attendance_version" -e "salary_version=$salary_version" -e "employee_version=$employee_version" -e "gateway_version=$gateway_version"'
+        version_attendance = version_attendance.split('/')
+        version_salary = version_salary.split('/')
+        version_employee = version_employee.split('/')
+        version_gateway = version_gateway.split('/')
+        sh label: '', script: 'ansible-playbook -i dynamic-inventory/ec2.py playbook.yml -e "attendance_version=$version_attendance" -e "salary_version=$version_salary" -e "employee_version=$version_employee" -e "gateway_version=$version_gateway"'
     }
 }
