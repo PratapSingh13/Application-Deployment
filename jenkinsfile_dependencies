@@ -34,10 +34,10 @@ node
     
     stage("Putting Dependecies")
     {
-        version_attendance = version_attendance.split('/')[1]
-        version_salary = version_salary.split('/')[1]
-        version_employee = version_employee.split('/')[1]
-        version_gateway = version_gateway.split('/')[1]
+        version_attendance = version_attendance.split("/")
+        version_salary = version_salary.split("/")
+        version_employee = version_employee.split("/")
+        version_gateway = version_gateway.split(/")
         sh "ansible-playbook -i dynamic-inventory/ec2.py playbook.yml -e attendance_version=$version_attendance -e salary_version=$version_salary -e employee_version=$version_employee -e gateway_version=$version_gateway"
     }
 }
