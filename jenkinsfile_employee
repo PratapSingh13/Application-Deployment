@@ -1,5 +1,8 @@
 node
 {
+    now = new Date()
+    println now.format("yyyy-MM-dd-HH:mm:ss", TimeZone.getTimeZone('UTC'))
+    cleanWs()
     stage("Clonnig Application") 
     {
         try
@@ -16,43 +19,45 @@ node
             sh 'exit 1'
         }
     }
-    
     stage("Building Employee Artifact")
     {
         try
         {
             sh label: '', script: 'cd employee && make'
+            time = now.format("yyyy-MM-dd-HH:mm:ss", TimeZone.getTimeZone('UTC'))
+            dir('employee')
+            {
+                sh " mv employee employee${time}"
+            }
+            //version = version.split('/')
+            //echo "$version"
         }
+            
         catch(Exception e)
         {
-            emailext attachLog: true,
-            body: '',
-            subject: 'Regarding Employee Binary Build',
+            emailext attachLog: true, 
+            body: '', 
+            subject: 'Regarding Employee Binary Build', 
             to: 'yogendrapratapsingh70@gmail.com'
             sh 'exit 1'
         }
     }
-
+    
     stage("Uploading Employee artifact")
     {
         try
         {
+            time = now.format("yyyy-MM-dd-HH:mm:ss", TimeZone.getTimeZone('UTC'))
             s3Upload consoleLogLevel: 'INFO', 
             dontSetBuildResultOnFailure: false, 
             dontWaitForConcurrentBuildCompletion: false, 
-            entries: [[bucket: 'ot-microservices', 
-            excludedFile: '', 
-            flatten: false, 
-            gzipFiles: false, 
+            entries: [[bucket: "ot-microservices/Employee/employee${time}", 
+            excludedFile: 'employee/employee_api.go', 
+            flatten: false, gzipFiles: false, 
             keepForever: false, 
-            managedArtifacts: true, 
+            managedArtifacts: false, 
             noUploadOnFailure: true, 
-            selectedRegion: 'ap-south-1',
-            showDirectlyInBrowser: false, 
-            sourceFile: 'employee/employee', 
-            storageClass: 'STANDARD', 
-            uploadFromSlave: false, 
-            useServerSideEncryption: false]], 
+            selectedRegion: 'ap-south-1', showDirectlyInBrowser: false, sourceFile: 'attendance/attendance*', storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false]], 
             pluginFailureResultConstraint: 'FAILURE', 
             profileName: 'Yogendra Pratap Singh', 
             userMetadata: []
@@ -61,7 +66,7 @@ node
         {
             emailext attachLog: true, 
             body: '', 
-            subject: 'Regarding Salary Artifact Uploading', 
+            subject: 'Regarding Employee Artifact Uploading', 
             to: 'yogendrapratapsingh70@gmail.com'
             sh 'exit 1'
         }
