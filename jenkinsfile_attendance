@@ -21,6 +21,7 @@ node
         try
         {
             sh label: '', script: 'cd attendance && make'
+            sh label: '', script: 'cd attendance && sudo mv attendance attendance`date +%d-%m-%y_%H:%M:%S`'
         }
         catch(Exception e)
         {
