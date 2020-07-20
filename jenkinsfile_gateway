@@ -1,5 +1,8 @@
 node
 {
+    now = new Date()
+    println now.format("yyyy-MM-dd-HH:mm:ss", TimeZone.getTimeZone('UTC'))
+    cleanWs()
     stage("Clonnig Application") 
     {
         try
@@ -21,37 +24,40 @@ node
         try
         {
             sh label: '', script: 'cd gateway && make'
+            time = now.format("yyyy-MM-dd-HH:mm:ss", TimeZone.getTimeZone('UTC'))
+            dir('salary')
+            {
+                sh " mv target/gateway-service.jar gateway${time}"
+            }
+            //version = version.split('/')
+            //echo "$version"
         }
+            
         catch(Exception e)
         {
-            emailext attachLog: true,
-            body: '',
-            subject: 'Regarding Gateway Build',
+            emailext attachLog: true, 
+            body: '', 
+            subject: 'Regarding Gateway Binary Build', 
             to: 'yogendrapratapsingh70@gmail.com'
             sh 'exit 1'
         }
     }
-
-    stage("Uploading JAR")
+    
+    stage("Uploading Gateway artifact")
     {
         try
         {
+            time = now.format("yyyy-MM-dd-HH:mm:ss", TimeZone.getTimeZone('UTC'))
             s3Upload consoleLogLevel: 'INFO', 
             dontSetBuildResultOnFailure: false, 
             dontWaitForConcurrentBuildCompletion: false, 
-            entries: [[bucket: 'ot-microservices', 
+            entries: [[bucket: "ot-microservices/Gateway/gateway${time}", 
             excludedFile: '', 
-            flatten: false, 
-            gzipFiles: false, 
+            flatten: false, gzipFiles: false, 
             keepForever: false, 
-            managedArtifacts: true, 
+            managedArtifacts: false, 
             noUploadOnFailure: true, 
-            selectedRegion: 'ap-south-1',
-            showDirectlyInBrowser: false, 
-            sourceFile: 'gateway/target/gateway-service.jar', 
-            storageClass: 'STANDARD', 
-            uploadFromSlave: false, 
-            useServerSideEncryption: false]], 
+            selectedRegion: 'ap-south-1', showDirectlyInBrowser: false, sourceFile: 'target/gateway*', storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false]], 
             pluginFailureResultConstraint: 'FAILURE', 
             profileName: 'Yogendra Pratap Singh', 
             userMetadata: []
@@ -60,7 +66,7 @@ node
         {
             emailext attachLog: true, 
             body: '', 
-            subject: 'Regarding Attendance Artifact Uploading', 
+            subject: 'Regarding Gateway Artifact Uploading', 
             to: 'yogendrapratapsingh70@gmail.com'
             sh 'exit 1'
         }
