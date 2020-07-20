@@ -1,5 +1,8 @@
 node
 {
+    now = new Date()
+    println now.format("yyyy-MM-dd-HH:mm:ss", TimeZone.getTimeZone('UTC'))
+    cleanWs()
     stage("Clonnig Application") 
     {
         try
@@ -21,8 +24,15 @@ node
         try
         {
             sh label: '', script: 'cd attendance && make'
-            sh label: '', script: 'cd attendance && sudo mv attendance attendance`date +%d-%m-%y_%H:%M:%S`'
+            time = now.format("yyyy-MM-dd-HH:mm:ss", TimeZone.getTimeZone('UTC'))
+            dir('attendance')
+            {
+                sh " mv attendance attendance${time}"
+            }
+            version = version.split('/')
+            echo "$version"
         }
+            
         catch(Exception e)
         {
             emailext attachLog: true, 
@@ -37,22 +47,17 @@ node
     {
         try
         {
+            time = now.format("yyyy-MM-dd-HH:mm:ss", TimeZone.getTimeZone('UTC'))
             s3Upload consoleLogLevel: 'INFO', 
             dontSetBuildResultOnFailure: false, 
             dontWaitForConcurrentBuildCompletion: false, 
-            entries: [[bucket: 'ot-microservices', 
-            excludedFile: '', 
-            flatten: false, 
-            gzipFiles: false, 
+            entries: [[bucket: "ot-microservices/Attendance/attendance${time}", 
+            excludedFile: 'attendance/attendance_api.go', 
+            flatten: false, gzipFiles: false, 
             keepForever: false, 
-            managedArtifacts: true, 
+            managedArtifacts: false, 
             noUploadOnFailure: true, 
-            selectedRegion: 'ap-south-1',
-            showDirectlyInBrowser: false, 
-            sourceFile: 'attendance/attendance', 
-            storageClass: 'STANDARD', 
-            uploadFromSlave: false, 
-            useServerSideEncryption: false]], 
+            selectedRegion: 'ap-south-1', showDirectlyInBrowser: false, sourceFile: 'attendance/attendance*', storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false]], 
             pluginFailureResultConstraint: 'FAILURE', 
             profileName: 'Yogendra Pratap Singh', 
             userMetadata: []
