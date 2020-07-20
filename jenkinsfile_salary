@@ -1,5 +1,8 @@
 node
 {
+    now = new Date()
+    println now.format("yyyy-MM-dd-HH:mm:ss", TimeZone.getTimeZone('UTC'))
+    cleanWs()
     stage("Clonnig Application") 
     {
         try
@@ -16,43 +19,45 @@ node
             sh 'exit 1'
         }
     }
-    
     stage("Building Salary Artifact")
     {
         try
         {
             sh label: '', script: 'cd salary && make'
+            time = now.format("yyyy-MM-dd-HH:mm:ss", TimeZone.getTimeZone('UTC'))
+            dir('attendance')
+            {
+                sh " mv salary salary${time}"
+            }
+            //version = version.split('/')
+            //echo "$version"
         }
+            
         catch(Exception e)
         {
-            emailext attachLog: true,
-            body: '',
-            subject: 'Regarding Salary Binary Build',
+            emailext attachLog: true, 
+            body: '', 
+            subject: 'Regarding Salary Binary Build', 
             to: 'yogendrapratapsingh70@gmail.com'
             sh 'exit 1'
         }
     }
-
+    
     stage("Uploading Salary artifact")
     {
         try
         {
+            time = now.format("yyyy-MM-dd-HH:mm:ss", TimeZone.getTimeZone('UTC'))
             s3Upload consoleLogLevel: 'INFO', 
             dontSetBuildResultOnFailure: false, 
             dontWaitForConcurrentBuildCompletion: false, 
-            entries: [[bucket: 'ot-microservices', 
-            excludedFile: '', 
-            flatten: false, 
-            gzipFiles: false, 
+            entries: [[bucket: "ot-microservices/Salary/salary${time}", 
+            excludedFile: 'salary/salary_api.go', 
+            flatten: false, gzipFiles: false, 
             keepForever: false, 
-            managedArtifacts: true, 
+            managedArtifacts: false, 
             noUploadOnFailure: true, 
-            selectedRegion: 'ap-south-1',
-            showDirectlyInBrowser: false, 
-            sourceFile: 'salary/salary', 
-            storageClass: 'STANDARD', 
-            uploadFromSlave: false, 
-            useServerSideEncryption: false]], 
+            selectedRegion: 'ap-south-1', showDirectlyInBrowser: false, sourceFile: 'attendance/attendance*', storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false]], 
             pluginFailureResultConstraint: 'FAILURE', 
             profileName: 'Yogendra Pratap Singh', 
             userMetadata: []
