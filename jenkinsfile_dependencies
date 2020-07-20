@@ -37,7 +37,7 @@ node
         version_attendance = version_attendance.split("/")
         version_salary = version_salary.split("/")
         version_employee = version_employee.split("/")
-        version_gateway = version_gateway.split(/")
-        sh "ansible-playbook -i dynamic-inventory/ec2.py playbook.yml -e attendance_version=$version_attendance -e salary_version=$version_salary -e employee_version=$version_employee -e gateway_version=$version_gateway"
+        version_gateway = version_gateway.split("/")
+        sh "ansible-playbook -i dynamic-inventory/ec2.py playbook.yml -e attendance_version=${version_attendance[1]} -e salary_version=${version_salary[1]} -e employee_version=${version_employee[1]} -e gateway_version=${version_gateway[1]}"
     }
 }
