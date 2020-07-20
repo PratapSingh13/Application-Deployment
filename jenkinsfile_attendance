@@ -29,8 +29,8 @@ node
             {
                 sh " mv attendance attendance${time}"
             }
-            version = version.split('/')
-            echo "$version"
+            //version = version.split('/')
+            //echo "$version"
         }
             
         catch(Exception e)
